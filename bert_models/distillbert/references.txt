@@ -1,0 +1,11 @@
+Code : 
+https://www.kaggle.com/code/atulanandjha/distillbert-extensive-tutorial-starter-kernel/notebook
+https://medium.com/huggingface/distilbert-8cf3380435b5
+https://huggingface.co/distilbert-base-uncased
+https://towardsdatascience.com/distillation-of-bert-like-models-the-code-72c31e8c2b0a
+https://www.assemblyai.com/blog/fine-tuning-transformers-for-nlp/
+
+
+Paper : 
+https://arxiv.org/pdf/1910.01108.pdf
+

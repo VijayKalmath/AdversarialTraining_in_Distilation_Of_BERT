@@ -130,3 +130,5 @@ dmypy.json
 
 # Transfomer Models 
 .pt
+
+*.swp

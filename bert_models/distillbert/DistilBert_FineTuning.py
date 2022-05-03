@@ -1,5 +1,6 @@
 import sys 
 sys.path.append('../utils')
+from datetime import datetime 
 from distilbert_utils import *
 from distilbert_finetuning import * 
 from transformers import AdamW
@@ -11,10 +12,11 @@ if __name__ == "__main__":
 
     GPU  = get_gpu()
 
-    labeled_examples, _ = get_sst_examples('./../../data/SST-2/train.tsv',test=False,discard_values = 0.92)
+    labeled_examples, _ = get_sst_examples('./../../data/SST-2/train.tsv',test=False,discard_values = 0.99)
     _, test_examples = get_sst_examples('./../../data/SST-2/dev.tsv', test=True,discard_values=1)
 
-    len(labeled_examples), len(test_examples)
+    print("Size of Training Data",len(labeled_examples))
+    print("Size of Test Data", len(test_examples))
 
 
     label_map = {'0': 0, '1': 1}
@@ -25,6 +27,9 @@ if __name__ == "__main__":
 
     tokenizer = DistilBertTokenizer.from_pretrained(transformer_type)
 
+    print("\n\n")
+    print("Generating DataSet from SST2")
+    print("\n\n")
     train_dataloader = generate_data_loader(train_examples, label_map,tokenizer,batch_size =64, do_shuffle = True)
 
     test_dataloader = generate_data_loader(test_examples, label_map,tokenizer)
@@ -36,5 +41,15 @@ if __name__ == "__main__":
     criterion = binary_cross_entropy
 
     #Train and save the model
+    print("\n\n\n\n")
+    print("Intiating Training of DistilBert Model")
+    print(f"Training Start Time : {datetime.now():%Y-%m-%d_%H-%M-%S%z}")
+    print("\n\n\n")
     model = train_model(GPU, train_dataloader, test_dataloader, tokenizer, model, optimizer, criterion,epochs =1 )
+    print("\n\n")
+    print(f"Training Completed at Time : {datetime.now():%Y-%m-%d_%H-%M-%S%z}")
 
+    torch.save({
+    'tokenizer': tokenizer,
+    'distilbert': model.state_dict(),
+}, f"distill_bert_finetuned_sst2_{len(train_examples)}_samples_{datetime.now():%Y-%m-%d_%H-%M-%S%z}.pt")

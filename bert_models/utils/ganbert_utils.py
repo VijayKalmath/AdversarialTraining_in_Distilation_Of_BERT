@@ -1,10 +1,29 @@
 import torch
+import io
+import random
+import time
+import math
 import torch.nn.functional as F
 import numpy as np
 import datetime
 import torch.nn as nn
 from transformers import *
 from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
+
+
+def get_gpu_details():
+    # If there's a GPU available...
+    if torch.cuda.is_available():    
+        # Tell PyTorch to use the GPU.    
+        device = torch.device("cuda")
+        print('There are %d GPU(s) available.' % torch.cuda.device_count())
+        print('We will use the GPU:', torch.cuda.get_device_name(0))
+        print('\n\n')
+    # If not...
+    else:
+        print('No GPU available, using the CPU instead.')
+        device = torch.device("cpu")
+    return device 
 
 def get_sst_examples(input_file, test=False):
     """Creates examples for the training and dev sets."""
@@ -114,3 +133,4 @@ def format_time(elapsed):
     elapsed_rounded = int(round((elapsed)))
     # Format as hh:mm:ss
     return str(datetime.timedelta(seconds=elapsed_rounded))
+

@@ -12,9 +12,10 @@ if __name__ == "__main__":
 
     GPU  = get_gpu()
 
-    labeled_examples, _ = get_sst_examples('./../../data/SST-2/train.tsv',test=False,discard_values = 0.99)
-    _, test_examples = get_sst_examples('./../../data/SST-2/dev.tsv', test=True,discard_values=1)
+    labeled_examples, _ = get_sst_examples('./../../data/SST-2/train.tsv',test=False,discard_values = 0)
+    _, test_examples = get_sst_examples('./../../data/SST-2/dev.tsv', test=True,discard_values=0)
 
+    print("\n\n SST Data Extracted and Read")
     print("Size of Training Data",len(labeled_examples))
     print("Size of Test Data", len(test_examples))
 
@@ -36,7 +37,8 @@ if __name__ == "__main__":
 
     #Create the tokenizer, model, optimizer, and criterion
     model = transfer_device(GPU, DistilBertForSequenceClassification.from_pretrained(transformer_type))
-
+    
+    epoch_number = 10 
     optimizer = AdamW(model.parameters(), lr=2e-5)
     criterion = binary_cross_entropy
 
@@ -45,7 +47,10 @@ if __name__ == "__main__":
     print("Intiating Training of DistilBert Model")
     print(f"Training Start Time : {datetime.now():%Y-%m-%d_%H-%M-%S%z}")
     print("\n\n\n")
-    model = train_model(GPU, train_dataloader, test_dataloader, tokenizer, model, optimizer, criterion,epochs =1 )
+
+    model = train_model(GPU, train_dataloader, test_dataloader, tokenizer, model, optimizer, criterion,epochs = epoch_number )
+    
+    
     print("\n\n")
     print(f"Training Completed at Time : {datetime.now():%Y-%m-%d_%H-%M-%S%z}")
 

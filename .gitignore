@@ -129,6 +129,6 @@ dmypy.json
 .pyre/
 
 # Transfomer Models 
-.pt
 
 *.swp
+*.pt

@@ -173,7 +173,6 @@ if __name__ == "__main__":
                                                num_warmup_steps = num_warmup_steps)
         scheduler_g = get_constant_schedule_with_warmup(gen_optimizer, 
                                                num_warmup_steps = num_warmup_steps)
-    num_train_epochs =1 
     # For each epoch...
     for epoch_i in range(0, num_train_epochs):
         # ========================================

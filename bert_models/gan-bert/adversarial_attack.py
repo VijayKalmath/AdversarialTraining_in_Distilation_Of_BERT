@@ -1,13 +1,46 @@
 # Quiet TensorFlow.
 import os
+import sys
+sys.path.append('../utils')
+from ganbert_utils import *
+from ganbert_models import *
 
 import numpy as np
-from transformers import AutoTokenizer, TFAutoModelForSequenceClassification, pipeline
+# from transformers import AutoTokenizer, TFAutoModelForSequenceClassification, pipeline
 
 from textattack import Attacker
-from textattack.attack_recipes import PWWSRen2019
+from tokenizers import Tokenizer
+from textattack.attack_recipes import TextFoolerJin2019
 from textattack.datasets import HuggingFaceDataset
 from textattack.models.wrappers import ModelWrapper
+
+class InferenceGANBert(nn.Module):
+    
+    def __init__(self, transformer, discriminator):
+        super().__init__()
+        self.transformer = transformer
+        self.transformer.eval() 
+        self.discriminator = discriminator
+        self.discriminator.eval()
+        
+    def forward(self, dataloader, batch_size=64):
+        # do the forward pass
+        
+        device = get_gpu_details()
+        
+        for batch in dataloader:
+            # Unpack this training batch from our dataloader. 
+            b_input_ids = batch[0].to(device)
+            b_input_mask = batch[1].to(device)
+            b_labels = batch[2].to(device)
+            with torch.no_grad():        
+                model_outputs = self.transformer(b_input_ids, attention_mask=b_input_mask)
+                hidden_states = model_outputs[-1]
+                _, _, probs = self.discriminator(hidden_states)
+                predicted_probs.extend(probs)
+                
+        return predicted_probs
+            
 
 
 class BertModelWrapper(ModelWrapper):
@@ -19,10 +52,23 @@ class BertModelWrapper(ModelWrapper):
     """
 
     def __init__(self, model_path, batch_size=64):
+        
         model_dict = torch.load(model_path)
-        self.transformer = model_dict['bert_encoder']
-        self.discriminator = model_dict['discriminator']
-        self.tokenizer = model_dict['tokenizer']
+        model_name = 'bert-base-cased'
+        self.transformer = AutoModel.from_pretrained(model_name)
+#         self.transformer.load_state_dict(model_dict['bert_encoder'])
+        self.transformer.eval()
+        print("type of transformer: ", type(self.transformer))
+        
+        self.discriminator = Discriminator()
+        self.discriminator.load_state_dict(model_dict['discriminator'])
+        self.discriminator.eval()
+        print("type of discriminator: ", type(self.discriminator))
+        
+        self.tokenizer = Tokenizer()
+        self.tokenizer.load_state_dict(model_dict['tokenizer'])
+        
+        self.model = InferenceGANBert(self.transformer, self.discriminator)
         self.batch_size = batch_size
 
     def __call__(self, test_inputs):
@@ -39,49 +85,17 @@ class BertModelWrapper(ModelWrapper):
                                        do_shuffle = False)
         
         # unwrap the model contents and do the actual computation
-        self.transformer.eval() 
-        self.discriminator.eval()
+        return self.model(test_dataloader, self.batch_size)
         
         
-        # Tracking variables 
-        predicted_probs = []
 
-        
-        # Evaluate data for one epoch
-        
-        for batch in test_dataloader:
-            # Unpack this training batch from our dataloader. 
-            b_input_ids = batch[0].to(device)
-            b_input_mask = batch[1].to(device)
-            b_labels = batch[2].to(device)
-            with torch.no_grad():        
-                model_outputs = self.transformer(b_input_ids, attention_mask=b_input_mask)
-                hidden_states = model_outputs[-1]
-                _, _, probs = self.discriminator(hidden_states)
-                predicted_probs.extend(probs)
-                
-        return predicted_probs
 
-# Create the model: a French sentiment analysis model.
-# see https://github.com/TheophileBlard/french-sentiment-analysis-with-bert
-model = TFAutoModelForSequenceClassification.from_pretrained("tblard/tf-allocine")
-tokenizer = AutoTokenizer.from_pretrained("tblard/tf-allocine")
-pipeline = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
+model_wrapper = BertModelWrapper(model_path='gan_bert_fine_tuned_6652.pt')
 
-model_wrapper = HuggingFaceSentimentAnalysisPipelineWrapper(pipeline)
+# Create the recipe
+recipe = TextFoolerJin2019.build(model_wrapper)
 
-# Create the recipe: PWWS uses a WordNet transformation.
-recipe = PWWSRen2019.build(model_wrapper)
-# WordNet defaults to english. Set the default language to French ('fra')
-#
-# See
-# "Building a free French wordnet from multilingual resources",
-# E. L. R. A. (ELRA) (ed.),
-# Proceedings of the Sixth International Language Resources and Evaluation (LREC’08).
-
-recipe.transformation.language = "fra"
-
-dataset = HuggingFaceDataset("allocine", split="test")
+dataset = HuggingFaceDataset("SetFit/sst2", split="test")
 
 attacker = Attacker(recipe, dataset)
 results = attacker.attack_dataset()

@@ -90,7 +90,6 @@ def generate_data_loader(input_examples, label_masks, label_map, tokenizer, batc
 
     # Tokenization 
     for (text, label_mask) in examples:
-        print(f"text is: {text}")
         # each sentence is tokenized and converted into an ID from the vocabulary
         encoded_sent = tokenizer.encode(text[0], add_special_tokens=True, max_length=64, padding="max_length", truncation=True)
         input_ids.append(encoded_sent)

@@ -406,7 +406,7 @@ if __name__ == "__main__":
         print(stat)
     
     # Saving Training Stats
-    np.save(f"gan_bert_finetuned_sst2_{len(train_examples)}_samples_{unknown_label_percentage}_labelratio_{datetime.now():%Y-%m-%d_%H-%M-%S%z}",training_stats)
+    np.save(f"gan_bert_finetuned_sst2_{len(train_examples)}_samples_{known_label_percentage}_labelratio_{datetime.now():%Y-%m-%d_%H-%M-%S%z}",training_stats)
     print("Total training took {:} (h:mm:ss)".format(format_time(time.time()-total_t0)))
     
         
@@ -420,5 +420,5 @@ if __name__ == "__main__":
                         'bert_encoder': transformer.state_dict(),
                         'discriminator': discriminator.state_dict()
                 }, 
-        f"gan_bert_finetuned_sst2_{len(train_examples)}_samples_{unknown_label_percentage}_labelratio_{datetime.now():%Y-%m-%d_%H-%M-%S%z}.pt")
+        f"gan_bert_finetuned_sst2_{len(train_examples)}_samples_{known_label_percentage}_labelratio_{datetime.now():%Y-%m-%d_%H-%M-%S%z}.pt")
 

@@ -36,8 +36,8 @@ if __name__ == "__main__":
     #  Extract the Dataset
     #--------------------------------
 
-    unknown_label_percentage = 0.2  
-    labeled_examples, unlabeled_examples, _ = get_sst_examples('./../../data/SST-2/train.tsv',test=False,discard_values = 0,unknown_label_percentage=unknown_label_percentage)
+    known_label_percentage = 0.7 
+    labeled_examples, unlabeled_examples, _ = get_sst_examples('./../../data/SST-2/train.tsv',test=False,discard_values = 0,unknown_label_percentage=known_label_percentage)
     _, _, test_examples = get_sst_examples('./../../data/SST-2/dev.tsv', test=True,discard_values = 0)
     
     print("\n\nSST Data Extracted and Read")
@@ -153,7 +153,8 @@ if __name__ == "__main__":
     
     print("\n\n\n\n")
     print("Intiating Training of Gan-Bert Model")
-    print(f"Training Start Time : {datetime.now():%Y-%m-%d_%H:%M:%S%z}")
+    print("Test")
+    print(f"Training Start Time : {datetime.now():%Y-%m-%d_%H-%M-%S%z}")
     
     #models parameters
     transformer_vars = [i for i in transformer.parameters()]

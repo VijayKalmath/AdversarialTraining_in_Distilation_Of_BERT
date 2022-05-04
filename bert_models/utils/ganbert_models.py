@@ -40,6 +40,7 @@ class Discriminator(nn.Module):
         hidden_sizes = [input_size] + hidden_sizes
         
         for i in range(len(hidden_sizes)-1):
+            print(f"hidden_sizes[i] and [i+1] is {hidden_sizes[i]} and {hidden_sizes[i+1]}")
             layers.extend([nn.Linear(hidden_sizes[i], hidden_sizes[i+1]), nn.LeakyReLU(0.2, inplace=True), nn.Dropout(dropout_rate)])
 
         # input 512 X 512

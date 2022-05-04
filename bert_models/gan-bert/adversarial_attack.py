@@ -2,6 +2,7 @@
 import os
 import sys
 sys.path.append('../utils')
+
 from ganbert_utils import *
 from ganbert_models import *
 

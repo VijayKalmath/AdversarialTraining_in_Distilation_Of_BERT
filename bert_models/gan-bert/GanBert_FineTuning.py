@@ -36,12 +36,13 @@ if __name__ == "__main__":
     #  Extract the Dataset
     #--------------------------------
 
-
-    labeled_examples, unlabeled_examples, _ = get_sst_examples('./../../data/SST-2/train.tsv')
-    _, _, test_examples = get_sst_examples('./../../data/SST-2/dev.tsv', test=True)
+    unknown_label_percentage = 0.2  
+    labeled_examples, unlabeled_examples, _ = get_sst_examples('./../../data/SST-2/train.tsv',test=False,discard_values = 0,unknown_label_percentage=unknown_label_percentage)
+    _, _, test_examples = get_sst_examples('./../../data/SST-2/dev.tsv', test=True,discard_values = 0)
     
-    print("\n\n SST Data Extracted and Read")
-    print("Size of Training Data",len(labeled_examples))
+    print("\n\nSST Data Extracted and Read")
+    print("Size of Labelled Training Data",len(labeled_examples))
+    print("Size of Unlabelled Training Data",len(unlabeled_examples))
     print("Size of Test Data", len(test_examples))
     
     #--------------------------------
@@ -171,8 +172,8 @@ if __name__ == "__main__":
 
         scheduler_d = get_constant_schedule_with_warmup(dis_optimizer, 
                                                num_warmup_steps = num_warmup_steps)
-        scheduler_g = get_constant_schedule_with_warmup(gen_optimizer, 
-                                               num_warmup_steps = num_warmup_steps)
+        scheduler_g = get_constant_schedule_with_warmup(gen_optimizer,num_warmup_steps = num_warmup_steps)
+
     # For each epoch...
     for epoch_i in range(0, num_train_epochs):
         # ========================================
@@ -402,7 +403,9 @@ if __name__ == "__main__":
 
     for stat in training_stats:
         print(stat)
-
+    
+    # Saving Training Stats
+    np.save(f"gan_bert_finetuned_sst2_{len(train_examples)}_samples_{unknown_label_percentage}_labelratio_{datetime.now():%Y-%m-%d_%H-%M-%S%z}",training_stats)
     print("Total training took {:} (h:mm:ss)".format(format_time(time.time()-total_t0)))
     
         
@@ -416,5 +419,5 @@ if __name__ == "__main__":
                         'bert_encoder': transformer.state_dict(),
                         'discriminator': discriminator.state_dict()
                 }, 
-        f"gan_bert_finetuned_sst2_{len(train_examples)}_samples_{datetime.now():%Y-%m-%d_%H-%M-%S%z}.pt")
+        f"gan_bert_finetuned_sst2_{len(train_examples)}_samples_{unknown_label_percentage}_labelratio_{datetime.now():%Y-%m-%d_%H-%M-%S%z}.pt")
 

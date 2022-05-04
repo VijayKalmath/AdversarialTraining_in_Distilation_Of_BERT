@@ -4,8 +4,8 @@ import random
 import time
 import math
 import torch.nn.functional as F
+from datetime import timedelta
 import numpy as np
-import datetime
 import torch.nn as nn
 from transformers import *
 from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
@@ -25,7 +25,7 @@ def get_gpu_details():
         device = torch.device("cpu")
     return device 
 
-def get_sst_examples(input_file, test=False):
+def get_sst_examples(input_file, test=False, discard_values = 0.5,unknown_label_percentage=0.5):
     """Creates examples for the training and dev sets."""
     labeled_examples = []
     unlabeled_examples = []
@@ -37,7 +37,7 @@ def get_sst_examples(input_file, test=False):
         for line in file_as_list[1:]:
             
             # random drop 90% of examples for checking
-            is_dropped = np.random.binomial(1, 0.9, 1)[0]
+            is_dropped = np.random.binomial(1, discard_values, 1)[0]
             if not test and is_dropped == 1:
                 continue
             
@@ -132,5 +132,5 @@ def format_time(elapsed):
     # Round to the nearest second.
     elapsed_rounded = int(round((elapsed)))
     # Format as hh:mm:ss
-    return str(datetime.timedelta(seconds=elapsed_rounded))
+    return str(timedelta(seconds=elapsed_rounded))
 

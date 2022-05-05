@@ -22,6 +22,19 @@ def get_gpu():
         print("No GPU device avaliable! Using CPU")
     return  GPU
 
+def get_gpu_details():
+    # If there's a GPU available...
+    if torch.cuda.is_available():    
+        # Tell PyTorch to use the GPU.    
+        device = torch.device("cuda")
+        print('There are %d GPU(s) available.' % torch.cuda.device_count())
+        print('We will use the GPU:', torch.cuda.get_device_name(0))
+        print('\n\n')
+    # If not...
+    else:
+        print('No GPU available, using the CPU instead.')
+        device = torch.device("cpu")
+    return device 
 
 def get_sst_examples(input_file, test=False, discard_values = 0.5):
 

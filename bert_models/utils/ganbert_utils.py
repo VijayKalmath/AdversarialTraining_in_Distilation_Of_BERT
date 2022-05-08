@@ -45,7 +45,7 @@ def get_sst_examples(input_file, test=False, discard_values = 0.5,unknown_label_
             if test:
                 test_examples.append((text, label))
             else:
-                if np.random.binomial(1, 0.5, 1)[0] == 0:
+                if np.random.binomial(1, unknown_label_percentage, 1)[0] == 0:
                     unlabeled_examples.append((text, 'UNK'))
                 else:
                     labeled_examples.append((text, label))

@@ -132,3 +132,6 @@ dmypy.json
 
 *.swp
 *.pt
+*pytorch_model.bin
+checkpoint-*/
+runs/

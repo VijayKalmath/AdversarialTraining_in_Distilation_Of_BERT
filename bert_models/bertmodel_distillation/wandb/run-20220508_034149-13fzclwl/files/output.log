@@ -1,0 +1,63 @@
+Saving model checkpoint to Distillation_of_GanBert-May7th-18-30/checkpoint-500
+Configuration saved in Distillation_of_GanBert-May7th-18-30/checkpoint-500/config.json
+Model weights saved in Distillation_of_GanBert-May7th-18-30/checkpoint-500/pytorch_model.bin
+tokenizer config file saved in Distillation_of_GanBert-May7th-18-30/checkpoint-500/tokenizer_config.json
+Special tokens file saved in Distillation_of_GanBert-May7th-18-30/checkpoint-500/special_tokens_map.json
+The following columns in the evaluation set  don't have a corresponding argument in `DistilBertForSequenceClassification.forward` and have been ignored: sentence, idx.
+***** Running Evaluation *****
+  Num examples = 872
+  Batch size = 128
+Saving model checkpoint to Distillation_of_GanBert-May7th-18-30/checkpoint-1000
+Configuration saved in Distillation_of_GanBert-May7th-18-30/checkpoint-1000/config.json
+Model weights saved in Distillation_of_GanBert-May7th-18-30/checkpoint-1000/pytorch_model.bin
+tokenizer config file saved in Distillation_of_GanBert-May7th-18-30/checkpoint-1000/tokenizer_config.json
+Special tokens file saved in Distillation_of_GanBert-May7th-18-30/checkpoint-1000/special_tokens_map.json
+The following columns in the evaluation set  don't have a corresponding argument in `DistilBertForSequenceClassification.forward` and have been ignored: sentence, idx.
+***** Running Evaluation *****
+  Num examples = 872
+  Batch size = 128
+Saving model checkpoint to Distillation_of_GanBert-May7th-18-30/checkpoint-1500
+Configuration saved in Distillation_of_GanBert-May7th-18-30/checkpoint-1500/config.json
+Model weights saved in Distillation_of_GanBert-May7th-18-30/checkpoint-1500/pytorch_model.bin
+tokenizer config file saved in Distillation_of_GanBert-May7th-18-30/checkpoint-1500/tokenizer_config.json
+Special tokens file saved in Distillation_of_GanBert-May7th-18-30/checkpoint-1500/special_tokens_map.json
+The following columns in the evaluation set  don't have a corresponding argument in `DistilBertForSequenceClassification.forward` and have been ignored: sentence, idx.
+***** Running Evaluation *****
+  Num examples = 872
+  Batch size = 128
+Saving model checkpoint to Distillation_of_GanBert-May7th-18-30/checkpoint-2000
+Configuration saved in Distillation_of_GanBert-May7th-18-30/checkpoint-2000/config.json
+Model weights saved in Distillation_of_GanBert-May7th-18-30/checkpoint-2000/pytorch_model.bin
+tokenizer config file saved in Distillation_of_GanBert-May7th-18-30/checkpoint-2000/tokenizer_config.json
+Special tokens file saved in Distillation_of_GanBert-May7th-18-30/checkpoint-2000/special_tokens_map.json
+The following columns in the evaluation set  don't have a corresponding argument in `DistilBertForSequenceClassification.forward` and have been ignored: sentence, idx.
+***** Running Evaluation *****
+  Num examples = 872
+  Batch size = 128
+Saving model checkpoint to Distillation_of_GanBert-May7th-18-30/checkpoint-2500
+Configuration saved in Distillation_of_GanBert-May7th-18-30/checkpoint-2500/config.json
+Model weights saved in Distillation_of_GanBert-May7th-18-30/checkpoint-2500/pytorch_model.bin
+tokenizer config file saved in Distillation_of_GanBert-May7th-18-30/checkpoint-2500/tokenizer_config.json
+Special tokens file saved in Distillation_of_GanBert-May7th-18-30/checkpoint-2500/special_tokens_map.json
+The following columns in the evaluation set  don't have a corresponding argument in `DistilBertForSequenceClassification.forward` and have been ignored: sentence, idx.
+***** Running Evaluation *****
+  Num examples = 872
+  Batch size = 128
+Saving model checkpoint to Distillation_of_GanBert-May7th-18-30/checkpoint-3000
+Configuration saved in Distillation_of_GanBert-May7th-18-30/checkpoint-3000/config.json
+Model weights saved in Distillation_of_GanBert-May7th-18-30/checkpoint-3000/pytorch_model.bin
+tokenizer config file saved in Distillation_of_GanBert-May7th-18-30/checkpoint-3000/tokenizer_config.json
+Special tokens file saved in Distillation_of_GanBert-May7th-18-30/checkpoint-3000/special_tokens_map.json
+The following columns in the evaluation set  don't have a corresponding argument in `DistilBertForSequenceClassification.forward` and have been ignored: sentence, idx.
+***** Running Evaluation *****
+  Num examples = 872
+  Batch size = 128
+Saving model checkpoint to Distillation_of_GanBert-May7th-18-30/checkpoint-3500
+Configuration saved in Distillation_of_GanBert-May7th-18-30/checkpoint-3500/config.json
+Model weights saved in Distillation_of_GanBert-May7th-18-30/checkpoint-3500/pytorch_model.bin
+tokenizer config file saved in Distillation_of_GanBert-May7th-18-30/checkpoint-3500/tokenizer_config.json
+Special tokens file saved in Distillation_of_GanBert-May7th-18-30/checkpoint-3500/special_tokens_map.json
+The following columns in the evaluation set  don't have a corresponding argument in `DistilBertForSequenceClassification.forward` and have been ignored: sentence, idx.
+***** Running Evaluation *****
+  Num examples = 872
+  Batch size = 128

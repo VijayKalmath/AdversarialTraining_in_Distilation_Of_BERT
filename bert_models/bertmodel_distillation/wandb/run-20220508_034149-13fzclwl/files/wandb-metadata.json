@@ -1,0 +1,23 @@
+{
+    "os": "Linux-5.4.0-1072-gcp-x86_64-with-glibc2.27",
+    "python": "3.8.0",
+    "heartbeatAt": "2022-05-08T03:41:51.881284",
+    "startedAt": "2022-05-08T03:41:49.734155",
+    "docker": null,
+    "gpu": "Tesla V100-SXM2-16GB",
+    "gpu_count": 1,
+    "cpu_count": 8,
+    "cuda": "11.0.228",
+    "args": null,
+    "state": "running",
+    "program": "<python with no main file>",
+    "git": {
+        "remote": "git@github.com:VijayKalmath/AdversarialTraining_in_Distillation_Of_BERT.git",
+        "commit": "d981ca6d4585276ee5a951f44c30437edd29d406"
+    },
+    "email": "vijay.kalmath363@gmail.com",
+    "root": "/home/ecbm4040/AdversarialTraining_in_Distillation_Of_BERT",
+    "host": "instance-2",
+    "username": "ecbm4040",
+    "executable": "/home/ecbm4040/ADL_new/bin/python3.8"
+}

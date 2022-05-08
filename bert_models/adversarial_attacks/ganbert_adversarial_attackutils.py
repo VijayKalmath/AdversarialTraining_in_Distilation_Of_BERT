@@ -7,6 +7,8 @@ from ganbert_utils import *
 from ganbert_models import *
 
 import numpy as np
+from collections import OrderedDict
+
 from transformers import AutoTokenizer # TFAutoModelForSequenceClassification, pipeline
 
 from textattack import Attacker,AttackArgs
@@ -42,7 +44,8 @@ class InferenceGANBert(nn.Module):
         with torch.no_grad():        
             model_outputs = self.transformer(inp_id_mask[0], attention_mask=inp_id_mask[1])
             hidden_states = model_outputs[-1]
-            _, _, probs = self.discriminator(hidden_states)
+            _, logits, probs = self.discriminator(hidden_states)
+
             
         return probs
             
@@ -61,19 +64,21 @@ class BertModelWrapper(ModelWrapper):
         model_dict = torch.load(model_path)
         model_name = 'bert-base-cased'
         self.transformer = AutoModel.from_pretrained(model_name)
-#         self.transformer.load_state_dict(model_dict['bert_encoder'])
+        transformer_dict = OrderedDict()
+        
+        for key,value in model_dict['bert_encoder'].items():
+            transformer_dict[key[7:]] = value
+            
+        self.transformer.load_state_dict(transformer_dict)
         self.transformer.eval()
-        print("type of transformer: ", type(self.transformer))
         
         hidden_size_bert = AutoConfig.from_pretrained(model_name).hidden_size
-        print("hiddensize is: ", hidden_size_bert)
         hidden_size_bert = int(hidden_size_bert)
         
         self.discriminator = Discriminator(input_size=hidden_size_bert, hidden_sizes=[hidden_size_bert], num_labels=3, dropout_rate=0.1)
         #self.discriminator = nn.Module()
         self.discriminator.load_state_dict(model_dict['discriminator'])
         self.discriminator.eval()
-        print("type of discriminator: ", type(self.discriminator))
         
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         
